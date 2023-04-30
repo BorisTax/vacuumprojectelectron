@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, Menu } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 import { update } from './update'
@@ -120,12 +120,22 @@ ipcMain.handle('open-win', (_, arg) => {
 })
 
 ipcMain.on('imageUrl', (e, data) => {
-  const printWindow = new BrowserWindow({
+  let printWindow: BrowserWindow | null = new BrowserWindow({
+    title: "Печать",
+    parent: win as BrowserWindow,
+    modal: true,
     webPreferences: {
       preload,
       nodeIntegration: true,
       contextIsolation: false,
     },
   })
-  printWindow.loadURL(data)
+  Menu.setApplicationMenu(null)
+  printWindow.on('page-title-updated', function(e) {
+    e.preventDefault()
+  });
+  //printWindow.loadURL(data).then(() => {(printWindow as BrowserWindow).setTitle("Печать")})
+  printWindow.on('close', () => {
+    printWindow = null
+  })
 })
