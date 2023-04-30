@@ -1,0 +1,80 @@
+
+
+hr{
+  margin-bottom: 3px;
+  margin-top: 0px;
+}
+
+.header-project{
+  display: inline;
+}
+title {
+  font-size: medium;
+  font-weight: bold;
+  color: blue;
+  text-align: right;
+}
+
+@media (hover: hover){
+  .button:hover{
+    mix-blend-mode: multiply;
+  }
+}
+
+#tooltip {
+	display:none; 
+  position:absolute;
+  background: white;
+  border: 1px solid black;
+  border-radius: 5px;
+	padding:2px; 
+	width:auto;
+  height: auto;
+  z-index: 100;
+}
+
+.login-form{
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes rotation{
+  from{transform: rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+
+#print-frame{
+  height: 0px;
+}
+
+.flex-center{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.profile-panel{
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 1em;
+}
+.input-row{
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.error-messages{
+  color:red;
+}
+.success-messages{
+  color: green;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}

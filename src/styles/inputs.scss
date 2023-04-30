@@ -1,0 +1,136 @@
+$border-radius: 10px;
+$color1: #1F8AFF;
+$color2: #898989;
+$scale: 0.5;
+.checkbox {
+    margin: 5px 0;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    .checkbox-label {
+      position: relative;
+      display: block;
+      height: calc(20px * #{$scale});
+      width: calc(44px * #{$scale});
+      background: $color2;
+      border-radius: calc(100px * #{$scale});
+      cursor: pointer;
+      transition: all 300ms ease;
+      &:after {
+        position: absolute;
+        left: -1px;
+        top: -2px;
+        display: block;
+        width: calc(26px * #{$scale});
+        height: calc(26px * #{$scale});
+        border-radius: calc(100px * #{$scale});
+        background: lighten($color2, 30%);
+        box-shadow: 0px 3px 3px rgba(0,0,0,0.05);
+        content: '';
+        transition: all 300ms ease;
+      }
+      &:active:after {
+        transform: scale(1.15, 0.85);
+      }
+    }
+  
+    .checkbox-input {
+      display: none;
+      &:checked ~ label {
+        background: $color1;
+        &:after {
+          left: calc(20px * #{$scale});
+          background: darken($color1, 15%);
+        }
+      }
+      &:disabled ~ label {
+        background: lighten($color2, 30%);
+        pointer-events: none;
+        &:after {
+          background: lighten($color2, 20%);;
+        }
+      }
+    }
+    .checkbox-title{
+        cursor: pointer;
+    }
+  }
+  
+
+.detail-list input:first-of-type{
+    border-top-left-radius: $border-radius;
+}
+.detail-list input:last-of-type{
+    border-bottom-right-radius: $border-radius;
+}
+.detail-list input:nth-of-type(4){
+    border-top-right-radius: $border-radius;
+}
+.detail-list input:nth-last-of-type(4){
+    border-bottom-left-radius: $border-radius;
+}
+.date-input{
+    max-width: max-content;
+}
+
+.checkbox1{
+    display: flex;
+    align-items: center;
+}
+.checkbox1 label{
+    font-size: medium;
+    margin-left: 5px;
+    white-space: nowrap;
+}
+
+.active-input{
+    font-weight: bold;
+}
+
+.textbox {
+    text-align: center;
+    white-space: nowrap;
+}
+.textbox-ok {
+    @extend .textbox;
+    color: green;
+}
+.textbox-not-ok {
+    @extend .textbox;
+    color: red;
+}
+.textbox-wrap{
+  @extend .textbox-not-ok;
+  max-width: 200px;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+
+.input-cell {
+    border: 1px solid black; 
+    box-sizing: border-box;
+    color: "black";
+    width: 4em;
+  }
+  
+.input-cell-incorrect {
+    @extend .input-cell;
+    color: red
+}
+
+.input-wide{
+    box-sizing: border-box;
+    width: 100%;
+}
+
+
+.language{
+  border: none;
+  background-color: transparent;
+}
+
+
+.language:focus{
+  outline: none;
+}

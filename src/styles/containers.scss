@@ -1,0 +1,112 @@
+@import "./toolbars.scss";
+
+html{
+    height:100vh;
+    overflow-x: hidden;
+  }
+  
+body{
+    background-color: whitesmoke;
+    background-image: url("../images/background.png");
+    min-height:100%;
+  }
+
+.shadow-box{
+  box-shadow: 0 0 5px $toolbars-shadow-color;
+}
+
+.main-container{
+  position: relative;
+  display: block;
+  height:100%;
+  padding:0px 10px 10px 10px;
+ }
+
+.viewport-container{
+    position:relative;
+    width:100%;
+    height:100%;
+    margin:auto;
+    display: flex;
+    max-height: 500px;
+    flex-direction: column;
+    align-items: stretch;
+    z-index: 0;
+  }
+
+#canvas-container{
+  display: flex;
+  justify-content: center;
+  position:relative;
+  -width:100%;
+}
+
+#canvas{ 
+  touch-action: none;
+  cursor: none; 
+}
+
+.detail-list-container{
+    max-height: 500px;
+    overflow-y:  auto;
+    overflow-x:  hidden;
+  }
+
+.detail-list{
+    display: grid;
+    grid-template-columns: 1em repeat(4, minmax(4em, max-content)) 1em;
+    align-items: center;
+  }
+.detail-list-caption{
+    text-align: center;
+  }
+.help-container{
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width:100%;
+    height:100%;
+    z-index: 100;
+  }
+
+.help-section{
+    display: block;
+    position: absolute;
+    z-index: 103;
+    overflow: hidden;
+    width: 80%;
+    animation: help 0.5s 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+.info-container{
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    align-items: center;
+  }
+
+@keyframes help {
+    from {
+      height:0px;
+    }
+    to{
+      height:50%;
+    }
+  }
+
+.modal-container{
+  position:absolute;
+  top:0px;
+  left: 0px;
+  background-color: rgba(205, 222, 223, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+  height:100%;
+  z-index: 100;
+}
+
