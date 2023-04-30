@@ -129,7 +129,6 @@ export function addWindowListeners(
   appActions,
   canvas
 ) {
-  document.getElementById("spinner").style.display = "none";
   const { sw, sh } = resize(viewPortData, setViewPortData, canvas);
   setViewPortData((prevData) => setDimensions(sw, sh, 4000, prevData));
   setViewPortData((prevData) => scale(1, { x: 1300, y: -600 }, prevData));
@@ -158,10 +157,10 @@ function resize(viewPortData, setViewPortData, canvas) {
   const wHeight = window.innerHeight;
   const cont = document.getElementById("canvas-container")
   const style = getComputedStyle(cont)
-  const sw = Number.parseInt(style.width)*0.9;
+  const sw = Number.parseInt(style.width);
   let sh =
     window.innerHeight <= window.innerWidth
-      ? wHeight * 0.8 
+      ? wHeight * 0.9
       : sw
         setViewPortData((prevData) =>
           setDimensions(sw, sh, prevData.realWidth, prevData)

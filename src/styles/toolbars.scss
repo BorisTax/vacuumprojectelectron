@@ -1,6 +1,7 @@
-$toolbar-background-color : rgba(185, 202, 203, 0.95);
+//$toolbar-background-color : rgba(185, 202, 203, 0.95);
+$toolbar-background-color : rgba(255, 255, 255, 0.9);
 $toolbar-border : 3px ridge;
-$toolbars-shadow-color : rgba(82, 112, 114, 0.555);
+$toolbars-shadow-color : rgba(224, 224, 224, 0.555);
 
 .toolbar{
     display: inline-block;
@@ -26,11 +27,7 @@ $toolbars-shadow-color : rgba(82, 112, 114, 0.555);
     cursor: pointer;
 }
 
-.toolbar-header-expandable:hover{
-    background-color: gray;
-    mix-blend-mode: soft-light;
-  }
-  
+ 
 .toolbar-modal{
     display: inline-block;
     position: relative;
@@ -72,35 +69,14 @@ $toolbars-shadow-color : rgba(82, 112, 114, 0.555);
     font-size: medium;
   }
   
-.sidebar-button{
-    width:10px;
-    display: flex;
-    gap: 10px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
     
-@media (hover: hover) {
-  .sidebar-button :hover{
-    font-weight: bold;
-    cursor: pointer;
-  }
-    }
-    
-.sidebar-button-caption{
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-  }
-  
 .left-sidebar{
     @include sideBar;
-    left: 10px;
     
   }
 .right-sidebar{
     @include sideBar;
-    right: 10px;
+    right: 0px;
   }
   
 .left-sidebar .toolbar{
@@ -109,4 +85,16 @@ $toolbars-shadow-color : rgba(82, 112, 114, 0.555);
 
 .right-sidebar .toolbar{
     box-shadow: -2px 2px 4px $toolbars-shadow-color;
+  }
+
+.status-bar {
+    -align-self: end;
+  }
+.status-bar-content {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2em; 
+    font-size: medium;
   }

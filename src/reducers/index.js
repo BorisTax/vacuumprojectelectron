@@ -9,6 +9,12 @@ import dialogsReducer from "./dialogsReducer";
 import materialReducer from "./materialReducer";
 import optionReducer from "./optionReducer";
 import languageReducer from "./languageReducer";
+import { ipcRenderer } from "electron";
+import {store} from "../store/configureStore"
+
+ipcRenderer.on('dispatchAction', (_, action) => {
+    store.dispatch(action)
+})
 
 const initialState = getInitialState()
 initialState.mouseHandler = new StatusFreeHandler(initialState)

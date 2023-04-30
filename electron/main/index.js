@@ -1,7 +1,10 @@
-import { app, BrowserWindow, shell, ipcMain, Menu } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, Menu, dialog } from 'electron'
 import { release } from 'node:os'
+import fs from 'node:fs'
 import { join } from 'node:path'
 import { update } from './update'
+import { ModelActions } from '../../src/actions/ModelActions'
+import { ScreenActions } from '../../src/actions/ScreenActions'
 
 // The built directory structure
 //
@@ -13,6 +16,7 @@ import { update } from './update'
 // ├─┬ dist
 // │ └── index.html    > Electron-Renderer
 //
+process.env.NODE_ENV = 'production'
 process.env.DIST_ELECTRON = join(__dirname, '../')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
@@ -35,16 +39,17 @@ if (!app.requestSingleInstanceLock()) {
 // Read more on https://www.electronjs.org/docs/latest/tutorial/security
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
-let win: BrowserWindow | null = null
+let win = null
 // Here, you can also use other preload
 const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
-
+const helpHtml = join(process.env.DIST, 'help.html')
+const appIcon = join(process.env.PUBLIC, 'favicon.ico')
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
-    icon: join(process.env.PUBLIC, 'favicon.ico'),
+    icon: appIcon,
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -54,11 +59,11 @@ async function createWindow() {
       contextIsolation: false,
     },
   })
-
+  win.maximize()
   if (url) { // electron-vite-vue#298
     win.loadURL(url)
     // Open devTool if the app is not packaged
-    win.webContents.openDevTools()
+    //win.webContents.openDevTools()
   } else {
     win.loadFile(indexHtml)
   }
@@ -74,6 +79,7 @@ async function createWindow() {
     return { action: 'deny' }
   })
 
+  Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate))
   // Apply electron-updater
   update(win)
 }
@@ -120,22 +126,107 @@ ipcMain.handle('open-win', (_, arg) => {
 })
 
 ipcMain.on('imageUrl', (e, data) => {
-  let printWindow: BrowserWindow | null = new BrowserWindow({
+  let printWindow = new BrowserWindow({
     title: "Печать",
-    parent: win as BrowserWindow,
+    parent: win,
     modal: true,
+    icon: appIcon,
     webPreferences: {
       preload,
       nodeIntegration: true,
       contextIsolation: false,
     },
   })
-  Menu.setApplicationMenu(null)
+  printWindow.setMenu(null)
   printWindow.on('page-title-updated', function(e) {
     e.preventDefault()
   });
-  //printWindow.loadURL(data).then(() => {(printWindow as BrowserWindow).setTitle("Печать")})
+  printWindow.loadURL(data)
   printWindow.on('close', () => {
     printWindow = null
   })
 })
+
+
+const mainMenuTemplate = [
+  {
+      label: 'Файл',
+      submenu: [
+          {
+              label: 'Новый',
+              click(){
+                win.webContents.send('dispatchAction', ModelActions.newProject())
+              }
+          },
+          {
+            label: 'Открыть',
+            click(){
+              const file = dialog.showOpenDialogSync(win, {title: "Открыть проект", filters: [{ name: 'Файл проекта', extensions: ['json'] }], properties:['openFile']});
+              var content = ""
+              if(file){
+                content = fs.readFileSync(file[0], {encoding: 'utf-8'});
+                try {
+                    content = JSON.parse(content);
+                } catch (e) {
+                    content = {}
+                }
+                win.webContents.send('dispatchAction', { type: ModelActions.SET_PROJECT, payload: content });
+              }
+            }
+          },
+          {
+              label: 'Сохранить',
+              click(){
+                win.webContents.send('dispatchAction', ModelActions.saveProject())
+              }
+          },
+         {
+          label: 'Печать',
+          click(){
+            win.webContents.send('dispatchAction', ScreenActions.print({save: false}))
+          }
+        },
+          {
+              label: 'Выход',
+              accelerator: process.platform === 'darwin' ? 'Command+Q': 'Ctrl+Q',
+              click(item, window){
+                  app.quit()
+              }
+          }
+      ]
+  },
+  {
+    label: 'Справка',
+    click(){
+      let helpWindow = new BrowserWindow({
+        title: "Справка",
+        width: 600,
+        height: 300,
+        icon: appIcon,
+        parent: win,
+        modal: true,
+      })
+      helpWindow.maximizable = false
+      helpWindow.resizable = false
+      helpWindow.setMenu(null)
+      helpWindow.loadURL(helpHtml)
+      helpWindow.on('close', () => {
+        helpWindow = null
+      })
+    }
+  }
+]
+
+if(process.env.NODE_ENV !== 'production'){
+  mainMenuTemplate.push({
+      label: 'DevTools',
+      submenu: [
+          {
+              label: 'Toggle DevTools',
+              click(_, focusedWindow){
+                  focusedWindow.webContents.toggleDevTools()
+              }
+          }
+      ]
+  })
+}

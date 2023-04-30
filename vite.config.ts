@@ -25,7 +25,7 @@ export default defineConfig(({ command }) => {
       electron([
         {
           // Main-Process entry file of the Electron App.
-          entry: 'electron/main/index.ts',
+          entry: 'electron/main/index.js',
           onstart(options) {
             if (process.env.VSCODE_DEBUG) {
               console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
@@ -40,6 +40,7 @@ export default defineConfig(({ command }) => {
               outDir: 'dist-electron/main',
               rollupOptions: {
                 external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+
               },
             },
           },

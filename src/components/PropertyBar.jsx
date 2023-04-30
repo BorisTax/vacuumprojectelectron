@@ -48,7 +48,7 @@ export default function PropertyBar(props) {
     const deleteButton = props.selectedPanels.length > 0 ? <ToolButton icon="delete" title={captions.delete} onClick={() => { deleteConfirm ? appActions.deleteConfirm() : appActions.deleteSelectedPanels() }} /> : <></>
     return <ToolBar caption={captions.title}>
         <div style={{ display: "flex", flexDirection: "column", flexWrap: "wrap" }}>
-            <span style={{ fontSize: "medium" }}>{panel}</span>
+            <span>{panel}</span>
             {marginSpan}
             {forcePlaceInput}
             {deleteButton}
