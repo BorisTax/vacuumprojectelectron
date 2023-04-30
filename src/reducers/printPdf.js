@@ -3,6 +3,7 @@ import jsPDF from "jspdf";
 import TextShape from "../components/shapes/TextShape";
 import TotalTableShape from "../components/shapes/TotalTableShape";
 import Geometry from "../utils/geometry";
+import { ipcRenderer } from "electron";
 
 export function printToPDF(state, save) {
     const doc = new jsPDF('p', 'px', 'a4');
@@ -149,7 +150,8 @@ export function printToPDF(state, save) {
         doc.save(fileName);
         }
         else
-        window.open(doc.output('bloburl'), 'print-frame');
+        ipcRenderer.send('imageUrl', doc.output('bloburl'))
+        //window.open(doc.output('bloburl'), 'print-frame');
 }
 
 

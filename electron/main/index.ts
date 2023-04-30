@@ -119,3 +119,13 @@ ipcMain.handle('open-win', (_, arg) => {
   }
 })
 
+ipcMain.on('imageUrl', (e, data) => {
+  const printWindow = new BrowserWindow({
+    webPreferences: {
+      preload,
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  })
+  printWindow.loadURL(data)
+})
