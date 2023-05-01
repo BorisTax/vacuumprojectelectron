@@ -45,7 +45,7 @@ const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
 const helpHtml = join(process.env.DIST, 'help.html')
-const appIcon = join(process.env.PUBLIC, 'favicon.ico')
+const appIcon = join(process.env.PUBLIC, 'icon.png')
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
