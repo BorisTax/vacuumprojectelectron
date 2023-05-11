@@ -136,7 +136,8 @@ export const captions = {
     "settings":{
       "title":"Настройки",
       "showModule":"отображать модуль на детали",
-      "deleteConfirm":"спрашивать перед удалением"
+      "deleteConfirm":"спрашивать перед удалением",
+      "allPlacedForce":"установить все детали принудительно"
     },
     "print":{
       "title":"Просмотр печати"

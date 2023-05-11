@@ -25,6 +25,7 @@ export function getInitialState(){
         secondary: []
     },
     deleteConfirm: true,
+    allPlacedForce: false,
     information: { order: "", plan: "", currentDate: getNewDate() },
     material: { name: "", gloss: true, texture: false },
     detailMargin: 50,

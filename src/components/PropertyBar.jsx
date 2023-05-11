@@ -34,7 +34,7 @@ export default function PropertyBar(props) {
         forcePlaceInput = !props.selectedPanels[0].state.canBePlaced || props.selectedPanels[0].model.placedForce ? <CheckBox title={captions.force}
             value={props.selectedPanels[0].model.placedForce}
             onChange={(value) => {
-                props.selectedPanels[0].setPlacedForce(value);
+                props.selectedPanels.forEach(p => p.setPlacedForce(value));
                 appActions.updateState()
             }}
         /> : forcePlaceInput

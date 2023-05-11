@@ -10,6 +10,7 @@ export const ModelActions = {
     SET_DETAIL_PROPERTY: 'SET_DETAIL_PROPERTY',
     LOAD_DETAIL_LIST: 'LOAD_DETAIL_LIST',
     SET_DELETE_CONFIRM: 'SET_DELETE_CONFIRM',
+    SET_ALLPLACEDFORCE: 'SET_ALLPLACEDFORCE',
     SET_DETAIL_LIST: 'SET_DETAIL_LIST',
     SET_DRAW_MODULE: 'SET_DRAW_MODULE',
     ADD_DETAIL: 'ADD_DETAIL',
@@ -110,6 +111,12 @@ export const ModelActions = {
     setDeleteConfirm: (value) => {
         return {
             type: ModelActions.SET_DELETE_CONFIRM,
+            payload: value
+        }
+    },
+    setAllPlacedForce: (value) => {
+        return {
+            type: ModelActions.SET_ALLPLACEDFORCE,
             payload: value
         }
     },

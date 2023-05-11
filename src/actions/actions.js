@@ -43,6 +43,7 @@ export function getActions(dispatch) {
         setComplectCount: (count) => dispatch(ModelActions.setComplectCount(count)),
         setTableType: (type) => dispatch(ModelActions.setTableType(type)),
         setCursor: (cursor) => dispatch(ScreenActions.setCursor(cursor)),
+        setAllPlacedForce: (value) => dispatch(ModelActions.setAllPlacedForce(value)),
         setDeleteConfirm: (value) => dispatch(ModelActions.setDeleteConfirm(value)),
         setDetailProperty: (index, key, value, listKey) => dispatch(ModelActions.setDetailProperty(index, key, value, listKey)),
         setDrawModule: (draw) => dispatch(ModelActions.setDrawModule(draw)),

@@ -63,6 +63,8 @@ export function saveCurrentState(state) {
             primary: state.detailList["primary"],
             secondary: state.detailList["secondary"]
         },
+        deleteConfirm: state.deleteConfirm,
+        allPlacedForce: state.allPlacedForce,
         information: { ...state.information },
         material: { ...state.material },
         drawModuleInCaption: state.drawModuleInCaption
@@ -82,6 +84,8 @@ export function loadCurrentState(state, oldState) {
         tableMarginWidth: state.tableMarginWidth,
         panelMargin: state.panelMargin,
         panels: panels,
+        deleteConfirm: state.deleteConfirm,
+        allPlacedForce: state.allPlacedForce,
         activeTable: state.activeTable,
         tables: state.tables.map(t => {
             const table = new TableLayoutShape({...t}, oldState.captions.print);

@@ -1,10 +1,17 @@
 import { ModelActions } from "../actions/ModelActions";
+import { checkAllPanelsOnIntersection } from "./panels";
 
 export default function optionReducer(state, action){
+    let newState
     switch (action.type){
 
         case ModelActions.SET_DELETE_CONFIRM:
             return {result: true, newState: {...state, deleteConfirm: action.payload}}
+
+        case ModelActions.SET_ALLPLACEDFORCE:
+            newState = {...state, allPlacedForce: action.payload}
+            checkAllPanelsOnIntersection(newState)
+            return {result: true, newState}
 
         case ModelActions.SET_DRAW_MODULE:
             state.panels.forEach(p => { p.model.drawModule = action.payload; p.refreshModel() })
