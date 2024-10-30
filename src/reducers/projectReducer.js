@@ -72,7 +72,7 @@ export function saveCurrentState(state) {
     const project = { project: 1.0, state: saveState }
     var contents = JSON.stringify(project);
     var link = document.createElement('a');
-    link.setAttribute('download', "project.json");
+    link.setAttribute('download', "project.vproj");
     link.href = makeTextFile(contents);
     link.click()
 }
