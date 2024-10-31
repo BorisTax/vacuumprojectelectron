@@ -1,6 +1,6 @@
 {
   "name": "vacuum-project",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "main": "dist-electron/main/index.js",
   "description": "Electron Vite React boilerplate.",
   "author": "tboris1983@gmail.com>",

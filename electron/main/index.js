@@ -157,12 +157,14 @@ const mainMenuTemplate = [
     submenu: [
       {
         label: "Новый",
+        accelerator: process.platform === "darwin" ? "Command+N" : "Ctrl+N",
         click() {
           if (confirmDialog("Новый проект?")) win.webContents.send("dispatchAction", ModelActions.newProject());
         },
       },
       {
         label: "Открыть",
+        accelerator: process.platform === "darwin" ? "Command+O" : "Ctrl+O",
         click() {
           const file = dialog.showOpenDialogSync(win, {
             title: "Открыть проект",
@@ -185,13 +187,15 @@ const mainMenuTemplate = [
         },
       },
       {
-        label: "Сохранить",
+        label: "Сохранить как",
+        accelerator: process.platform === "darwin" ? "Command+S" : "Ctrl+S",
         click() {
           win.webContents.send("dispatchAction", ModelActions.saveProject());
         },
       },
       {
         label: "Печать",
+        accelerator: process.platform === "darwin" ? "Command+P" : "Ctrl+P",
         click() {
           win.webContents.send(
             "dispatchAction",
