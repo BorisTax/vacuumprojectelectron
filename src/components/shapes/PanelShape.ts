@@ -5,17 +5,27 @@ import { Color } from '../colors';
 import { PropertyTypes } from "./PropertyData";
 import RectangleShape from './RectangleShape';
 import TextShape from './TextShape';
-export default class PanelShape extends Shape {
+import { PanelShapeModel, PanelShapeState } from '@/types/shapes';
+import { Point } from '@/types/geomerty';
 
-    constructor(model) {
-        super();
-        this.highlightedStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 2)
-        this.normalStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 1)
-        this.normalDashStyle = new ShapeStyle(Color.BLACK, ShapeStyle.DASH)
-        this.highlightedWidth = 2
-        this.normalWidth = 1
-        this.pathWidth = 10
-        this.highlightedPathWidth = 20
+
+export default class PanelShape {
+    private highlightedStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 2)
+    private normalStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 1)
+    private normalDashStyle = new ShapeStyle(Color.BLACK, ShapeStyle.DASH)
+    private highlightedWidth = 2
+    private normalWidth = 1
+    private pathWidth = 10
+    private highlightedPathWidth = 20
+    private model: PanelShapeModel
+    private state: PanelShapeState= {
+        selected: false,
+        highlighted: false,
+        inSelection: false,
+        underCursor: false,
+        canBePlaced: false
+    }
+    constructor(model: PanelShapeModel) {
         this.model = { ...model };
         if (!model.origWidth) this.model.origWidth = this.model.width
         if (!model.origLength) this.model.origLength = this.model.length
@@ -35,13 +45,6 @@ export default class PanelShape extends Shape {
         this.state.message = "";
         this.captionShape.setFillStyle(Color.BLACK);
         this.screenRect = {}
-        this.properties = [
-            { type: PropertyTypes.STRING, labelKey: "name", public: true },
-            { type: PropertyTypes.STRING, labelKey: "dimensions", public: true },
-            { type: PropertyTypes.VERTEX, labelKey: "position" },
-            { type: PropertyTypes.BOOL, labelKey: "orientation" },
-        ]
-        this.defineProperties();
     }
 
     drawSelf(ctx, realRect, screenRect, print = false) {
@@ -157,23 +160,33 @@ export default class PanelShape extends Shape {
         br = this.model.bottomRight;
         this.innerRect.setCorners(tl, br);
     }
-    isPointInside(p) {
+    isPointInside(p: Point) {
         return (p.x >= this.outerRect.model.topLeft.x) && (p.x <= this.outerRect.model.topLeft.x + this.outerRect.model.width) && (p.y <= this.outerRect.model.topLeft.y) && (p.y >= this.outerRect.model.topLeft.y - this.outerRect.model.height);
     }
     getDistance(point) {
 
     }
-    isInRect({ topLeft, bottomRight }) {
+    isInRect({ topLeft, bottomRight }: Rectangle) {
         const inRect = [Geometry.pointInRect(this.model.topLeft, topLeft, bottomRight),
         Geometry.pointInRect(this.model.bottomRight, topLeft, bottomRight)];
         const full = inRect.every(i => i === true);
         const cross = Intersection.RectangleRectangle(topLeft, bottomRight, this.model.topLeft, this.model.bottomRight).length > 0;
         return { cross, full };
     }
-    toString() {
-        return "Rectangle";
+
+    setState(state: PanelShapeState) {
+        this.state = { ...this.state, ...state };
+        if (this.state.selected === true) {
+            this.setStyle(this.normalStyle);
+            if (this.state.highlighted) this.getStyle().setWidth(this.highlightedWidth);
+            return;
+        } else {
+            this.setStyle(this.normalStyle);
+        }
+        if (this.state.highlighted) this.setStyle(this.highlightedStyle);
     }
-    getDescription() {
-        return 'Rectangle';
+    getState() {
+        return this.state;
     }
+
 }

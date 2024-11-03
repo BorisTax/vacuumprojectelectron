@@ -1,7 +1,11 @@
-import SelectCursor from "../components/shapes/cursors/SelectCursor";
-import TableLayoutShape from "../components/shapes/TableLayoutShape";
+import SelectCursor from "../components/shapes/cursors/SelectCursor.js";
+import TableLayoutShape from "../components/shapes/TableLayoutShape.js";
 import { captions } from "../locale/ru.js";
-import { getNewDate, isMobile, Status } from "./functions";
+import { getNewDate, isMobile, Status } from "./functions.js";
+
+export type AppState = {
+    cursor: 
+}
 
 export function getInitialState() {
   return {

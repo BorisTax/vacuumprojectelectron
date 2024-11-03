@@ -1,13 +1,16 @@
-import Geometry, { Rectangle, Coord2D, Line, Intersection } from '../../utils/geometry';
+import Geometry, { createRectangleByPoints } from '../../utils/geometry';
 import Shape from "./Shape";
 import { PropertyTypes } from "./PropertyData";
+import { RectangleShapeModel } from '@/types/shapes';
+import { Rectangle } from '@/types/geomerty';
 export default class RectangleShape extends Shape {
-    constructor(model) {
+    private model: RectangleShapeModel
+    private rect = createRectangleByPoints(0,0,0,0)
+    private angle = 0
+    private vertical = true
+    constructor(model: RectangleShapeModel) {
         super();
         this.model = model;
-        this.rect = new Rectangle()
-        this.angle = 0
-        this.vertical = true
         this.properties = [
             { type: PropertyTypes.VERTEX, value: model.topLeft, labelKey: "p1" },
             { type: PropertyTypes.VERTEX, value: model.bottomRight, labelKey: "p2" },
