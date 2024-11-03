@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 export default function PropertyBar(props) {
     const appActions = useActions()
     const captions = useSelector(store => store.captions.toolbars.property)
-    const deleteConfirm = useSelector(store => store.deleteConfirm)
+    const deleteConfirm = useSelector(store => store.settings.deleteConfirm)
     let panel;
     let message = '';
     let marginSpan = <></>

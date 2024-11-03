@@ -11,6 +11,6 @@ export default class DeleteKeyHandler extends KeyHandler {
 
     keyDown(e, { appData, appActions }) {
         if (super.keyDown(e, { appData, appActions })) return
-        appData.deleteConfirm ? appActions.deleteConfirm() : appActions.deleteSelectedPanels()
+        appData.settings.deleteConfirm ? appActions.deleteConfirm() : appActions.deleteSelectedPanels()
     }
 }

@@ -6,16 +6,16 @@ export default function optionReducer(state, action){
     switch (action.type){
 
         case ModelActions.SET_DELETE_CONFIRM:
-            return {result: true, newState: {...state, deleteConfirm: action.payload}}
+            return {result: true, newState: {...state, settings: {...state.settings, deleteConfirm: action.payload}}}
 
         case ModelActions.SET_ALLPLACEDFORCE:
-            newState = {...state, allPlacedForce: action.payload}
+            newState = {...state, settings: {...state.settings, allPlacedForce: action.payload}}
             checkAllPanelsOnIntersection(newState)
             return {result: true, newState}
 
         case ModelActions.SET_DRAW_MODULE:
             state.panels.forEach(p => { p.model.drawModule = action.payload; p.refreshModel() })
-            return { result: true, newState: {...state, drawModuleInCaption: action.payload} }
+            return { result: true, newState: {...state, settings:  {...state.settings, drawModuleInCaption: action.payload} }}
 
 
         default: {

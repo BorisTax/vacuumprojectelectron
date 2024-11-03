@@ -49,26 +49,26 @@ export function checkAllPanelsOnIntersection(state) {
                 }
             }
         }
-        canBePlaced = canBePlaced || state.allPlacedForce
-        if (curShape.model.placedForce || state.allPlacedForce) {
+        canBePlaced = canBePlaced || state.settings.allPlacedForce
+        if (curShape.model.placedForce || state.settings.allPlacedForce) {
             tableId = nearestTable.getId();
             multiply = nearestTable.model.multiply
         }
-        if (canBePlaced || curShape.model.placedForce || state.allPlacedForce) {
+        if (canBePlaced || curShape.model.placedForce || state.settings.allPlacedForce) {
             for (let panel of panelList) {
                 if (panel === curShape) continue;
                 canBePlaced = !Geometry.rectIntersection(curShape.outerRect.model, panel.outerRect.model);
                 if (canBePlaced || curShape.model.placedForce) { canBePlaced = !Geometry.rectInRect(curShape.outerRect.model, panel.outerRect.model) }
-                canBePlaced = canBePlaced || state.allPlacedForce
+                canBePlaced = canBePlaced || state.settings.allPlacedForce
                 if (!canBePlaced) break;
             }
         }
         curShape.setState({ canBePlaced });
-        if (!canBePlaced && !curShape.model.placedForce && !state.allPlacedForce) {
+        if (!canBePlaced && !curShape.model.placedForce && !state.settings.allPlacedForce) {
             if (tableId === undefined) curShape.state.message = "detailNotOnTable";
             else curShape.state.message = "detailOffsetError";
         }
-        tableId = (canBePlaced || curShape.model.placedForce || state.allPlacedForce) ? tableId : undefined
+        tableId = (canBePlaced || curShape.model.placedForce || state.settings.allPlacedForce) ? tableId : undefined
         curShape.setTableId(tableId)
         curShape.model.multiply = multiply;
     }

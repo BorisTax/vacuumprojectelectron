@@ -16,7 +16,7 @@ export default function TablesBar(props) {
     const tables = appData.tables;
     const activeTable = appData.activeTable;
     const complectCount = appData.tables[activeTable].model.multiply;
-    const deleteConfirm = useSelector(store => store.deleteConfirm)
+    const deleteConfirm = useSelector(store => store.settings.deleteConfirm)
     const types = [TableLayoutShape.SMALL, TableLayoutShape.BIG]
     const typeCaptions = [captions[TableLayoutShape.SMALL], captions[TableLayoutShape.BIG]]
     return <ToolBar caption={captions.title}>

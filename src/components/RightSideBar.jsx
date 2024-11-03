@@ -29,7 +29,7 @@ export default function RightSideBar() {
         />
         <SettingsBar
           disabled={disabled}
-          settings={{ drawModule: appData.drawModuleInCaption, deleteConfirm: appData.deleteConfirm }}
+          settings={{ ...appData.settings }}
         />
       </div>
     </div>

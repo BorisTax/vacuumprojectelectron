@@ -12,7 +12,7 @@ export default function DetailListBar({disabled, listKey, caption}){
     const details = useSelector(store => store.detailList[listKey])
     const noDetails = (details.length === 0)
     const [active, setActive] = useState({row: 0, id: details[0]?details[0].id:0})
-    const deleteConfirm = useSelector(store => store.deleteConfirm)
+    const deleteConfirm = useSelector(store => store.settings.deleteConfirm)
     if(details.every(d => d.id !== active.id)) {active.row = 0; active.id = details[0]?details[0].id:0} //after deleting row
     if(details[active.row]){
         var created_all = details[active.row].created >= details[active.row].count;

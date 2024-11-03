@@ -43,7 +43,7 @@ export default function panelReducer(state, action){
         case ShapeActions.CREATE_PANEL:
             state.panels.forEach(p => { p.state.selected = false })
             var newState = {
-                ...state, curShape: new PanelShape({ ...action.payload, drawModule: state.drawModuleInCaption}),
+                ...state, curShape: new PanelShape({ ...action.payload, drawModule: state.settings.drawModuleInCaption}),
                 cursor: new DragCursor(state.curRealPoint), status: Status.CREATE
             }
             newState.tables.forEach(t => { t.setPanelList(newState.panels) });

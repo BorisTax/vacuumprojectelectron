@@ -17,13 +17,17 @@ export default function projectReducer(state, action){
         case ModelActions.NEW_PROJECT:
             const initialState = getInitialState()
             initialState.mouseHandler = new StatusFreeHandler(initialState)
-            return {result: true, 
-                newState: {...state,
+            return {
+              result: true,
+              newState: {
+                ...state,
                 detailList: initialState.detailList,
                 tables: initialState.tables,
                 panels: initialState.panels,
                 activeTable: initialState.activeTable,
-                information: initialState.information}
+                information: initialState.information,
+                settings: { ...initialState.settings },
+              },
             };
         case ScreenActions.PRINT:
             printToPDF(state, action.payload)
@@ -53,21 +57,19 @@ export default function projectReducer(state, action){
 
 export function saveCurrentState(state) {
     const saveState = {
-        tableMarginLength: state.tableMarginLength,
-        tableMarginWidth: state.tableMarginWidth,
-        panelMargin: state.panelMargin,
-        panels: state.panels.map(p => p.model),
-        activeTable: state.activeTable,
-        tables: state.tables.map(t => t.model),
-        detailList: {
-            primary: state.detailList["primary"],
-            secondary: state.detailList["secondary"]
-        },
-        deleteConfirm: state.deleteConfirm,
-        allPlacedForce: state.allPlacedForce,
-        information: { ...state.information },
-        material: { ...state.material },
-        drawModuleInCaption: state.drawModuleInCaption
+      tableMarginLength: state.tableMarginLength,
+      tableMarginWidth: state.tableMarginWidth,
+      panelMargin: state.panelMargin,
+      panels: state.panels.map((p) => p.model),
+      activeTable: state.activeTable,
+      tables: state.tables.map((t) => t.model),
+      detailList: {
+        primary: state.detailList["primary"],
+        secondary: state.detailList["secondary"],
+      },
+      settings: { ...state.settings },
+      information: { ...state.information },
+      material: { ...state.material },
     };
     const project = { project: 1.0, state: saveState }
     var contents = JSON.stringify(project);
@@ -78,27 +80,31 @@ export function saveCurrentState(state) {
 }
 
 export function loadCurrentState(state, oldState) {
-    const panels = state.panels.map(p => { const panel = new PanelShape({ ...p, drawModule: state.drawModuleInCaption }); panel.state.selected = false; panel.refreshModel(); return panel });
+    const initialState = getInitialState()
+    const panels = state.panels.map(p => { const panel = new PanelShape({ ...p, drawModule: state.settings?.drawModuleInCaption || false }); panel.state.selected = false; panel.refreshModel(); return panel });
     const newState = {
-        tableMarginLength: state.tableMarginLength,
-        tableMarginWidth: state.tableMarginWidth,
-        panelMargin: state.panelMargin,
-        panels: panels,
-        deleteConfirm: state.deleteConfirm,
-        allPlacedForce: state.allPlacedForce,
-        activeTable: state.activeTable,
-        tables: state.tables.map(t => {
-            const table = new TableLayoutShape({...t}, oldState.captions.print);
-            table.setPanelList(panels);
-            return table;
-        }),
-        detailList: {
-            primary: state.detailList["primary"],
-            secondary: state.detailList["secondary"]
-        },
-        information: { ...state.information, currentDate: state.information.currentDate|| getNewDate() },
-        material: { ...state.material },
-        drawModuleInCaption: state.drawModuleInCaption
+      tableMarginLength: state.tableMarginLength,
+      tableMarginWidth: state.tableMarginWidth,
+      panelMargin: state.panelMargin,
+      panels: panels,
+      activeTable: state.activeTable,
+      tables: state.tables.map((t) => {
+        const table = new TableLayoutShape({ ...t }, oldState.captions.print);
+        table.setPanelList(panels);
+        return table;
+      }),
+      detailList: {
+        primary: state.detailList["primary"],
+        secondary: state.detailList["secondary"],
+      },
+      information: {
+        ...state.information,
+        currentDate: state.information.currentDate || getNewDate(),
+      },
+      material: { ...state.material },
+      settings: state.settings
+        ? { ...state.settings }
+        : { ...initialState.settings },
     };
     checkAllPanelsOnIntersection(newState);
     return newState;
